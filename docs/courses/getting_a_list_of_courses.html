@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Courses API</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/assets/stylesheets/bootstrap.css"/>
+    <link rel="stylesheet" href="/assets/stylesheets/codemirror.css"/>
+    <link rel="stylesheet" href="/assets/stylesheets/application.css"/>
+    <script src="/assets/javascripts/jquery-1-7-2.js"></script>
+    <script src="/assets/javascripts/codemirror.js"></script>
+    <script src="/assets/javascripts/mode/css/css.js"></script>
+    <script src="/assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="/assets/javascripts/mode/javascript/javascript.js"></script>
+    <script src="/assets/javascripts/mode/xml/xml.js"></script>
+    <script>
+      function mirror(textarea, contentType, options) {
+        $textarea = $(textarea);
+        if ($textarea.val() != '') {
+          if(contentType.indexOf('json') >= 0) {
+            $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
+            options.json = true;
+            options.mode = 'javascript';
+          } else if (contentType.indexOf('javascript') >= 0) {
+            options.mode = 'javascript';
+          } else if (contentType.indexOf('xml') >= 0) {
+            options.mode = 'xml';
+          } else {
+            options.mode = 'htmlmixed';
+          }
+        }
+        return CodeMirror.fromTextArea(textarea, options);
+      };
+
+      $(function(){
+        $(".request.body").each(function(i, el) {
+          el = $(el);
+          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
+        });
+        $(".response.body").each(function(i, el) {
+          el = $(el);
+          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
+        });
+      });
+    </script>
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Courses API</h1>
+
+      <div class="article">
+        <h2>Getting a list of courses</h2>
+        <h3>GET /courses</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="name">page</span>
+                </td>
+                <td>
+                  <span class="description">Current courses</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="name">auth_token</span>
+                </td>
+                <td>
+                  <span class="description">The User authentication token</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Request</h3>
+
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Content-Type: application/json
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /courses?auth_token=s4ucANQYCFzHZR3LGJrq</pre>
+
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">auth_token: s4ucANQYCFzHZR3LGJrq</pre>
+
+
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
+ETag: &quot;d41fc35699bc6750e4966dd36397c7eb&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-UA-Compatible: IE=Edge,chrome=1
+Set-Cookie: _token_service_session=BAh7B0kiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbCEkiCVVzZXIGOwBGWwZpBkkiIiQyYSQwNCRQVlZIV0tHLmJYdVBELlNqYmJ0STl1BjsAVEkiD3Nlc3Npb25faWQGOwBGIiViMjQ0YjMyOGNlZTM1YWJhYWExNjc5ZjkzNmEzY2M0MQ%3D%3D--aa0d3b3ed9385255931660b36a7150b42d2f8f9e; path=/; HttpOnly
+X-Runtime: 0.013515</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <div class="response body" data-content-type="application/json; charset=utf-8"><textarea>[{"course":{"created_at":"2012-12-11T01:27:53Z","description":"course description 0","id":1,"professor":null,"title":"Coruse 0","updated_at":"2012-12-11T01:27:53Z"}},{"course":{"created_at":"2012-12-11T01:27:53Z","description":"course description 1","id":2,"professor":null,"title":"Coruse 1","updated_at":"2012-12-11T01:27:53Z"}}]</textarea></div>
+      </div>
+    </div>
+  </body>
+</html>
